@@ -53,6 +53,15 @@ handleAddPlayer = (name) => {
   });
 }
 
+getHighScore = () => {
+  const scores = this.state.players.map( p => p.score );
+  const highScore = Math.max(...scores);
+  if (highScore) {
+    return highScore;
+  } 
+  return null;
+}
+
   handleRemovePlayer = (id) => {
     this.setState( prevState => {
       return {
@@ -62,6 +71,7 @@ handleAddPlayer = (name) => {
   }
 
   render() {
+    const highScore = this.getHighScore();
     return (
       <div className="scoreboard">
         <Header 
@@ -78,7 +88,8 @@ handleAddPlayer = (name) => {
             key={player.id.toString()} 
             index={index}
             changeScore={this.handleScoreChange}
-            removePlayer={this.handleRemovePlayer}           
+            removePlayer={this.handleRemovePlayer}
+            isHighScore={highScore === player.score}       
           />
         )}
         <AddPlayerForm addPlayer={this.handleAddPlayer} />
